@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>TAHITI NUI TRAVEL 호텔 객실 현황 조회</title>
+<style>
+  :root {
+    --color-bg: #ffffff; --color-panel: #f7f9fb; --color-fg: #1c1f24; --color-fg-muted: #5f6875;
+    --color-border-line: #d9dee5; --color-ok: #1f9d55; --color-warn: #d98a00; --color-bad: #d64545;
+    --font-anthropic-sans: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-anthropic-serif: Georgia, 'Noto Serif KR', serif;
+    --cds-font-size-caption: 12px; --cds-font-size-body: 14px; --cds-font-size-heading: 16px; --cds-font-size-title: 20px;
+    --cds-font-weight-medium: 500;
+    --cds-gap-sm: 8px; --cds-gap-md: 12px; --cds-gap-lg: 16px; --cds-gap-xl: 24px;
+    --cds-pad-lg: 16px; --cds-radius: 10px;
+    --cds-text-secondary: var(--color-fg-muted); --cds-surface-popover: var(--color-panel);
+    --cds-border: var(--color-border-line); --cds-shadow-popover: 0 4px 14px rgba(0,0,0,.15);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --color-bg: #14171b; --color-panel: #1c2025; --color-fg: #e8eaed; --color-fg-muted: #9aa3ae;
+      --color-border-line: #323840; --cds-shadow-popover: 0 4px 14px rgba(0,0,0,.5); color-scheme: dark; }
+  }
+  html, body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-family: var(--font-anthropic-sans); font-size: 14px; }
+  .dash-select { font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--color-border-line); background: var(--color-bg); color: var(--color-fg); max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
+  #dash-root { --dash-gutter: 0; }
+  .hx { --hx-a: #a9e29a; --hx-r: #bda4ee; --hx-n: #bda4ee; --hx-u: #ee7b7b;
+        --hx-p: color-mix(in srgb, var(--color-fg-muted) 16%, var(--color-bg));
+        max-width: 1040px; margin: 0 auto; padding: var(--cds-pad-lg) max(16px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: var(--cds-gap-lg); font-family: var(--font-anthropic-sans); color: var(--color-fg); }
+  .hx h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 28px; margin: 0; text-wrap: balance; }
+  .hx h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0 0 var(--cds-gap-sm); }
+  .hx p { margin: 0; }
+  .hx-muted { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .hx-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; }
+  .hx-sel { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: var(--cds-gap-md); }
+  .hx-sel label { display: flex; flex-direction: column; gap: 6px; min-width: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .hx-sel select { width: 100%; min-width: 0; }
+  .hx-sel .hx-pick { padding: 12px 14px 14px; border: 2px solid; border-radius: 12px; color: #4a4540; font-size: 13px; font-weight: 700; letter-spacing: .02em; }
+  .hx-sel .hx-pick.p1 { background: #e3f0fd; border-color: #bcd9f6; }
+  .hx-sel .hx-pick.p2 { background: #fdeadb; border-color: #f6cfae; }
+  .hx-sel .hx-pick.p3 { background: #dff3ee; border-color: #b4e0d6; }
+  .hx-sel .hx-pick select { font-weight: 400; color: var(--color-fg); }
+  .hx-sel option.pri { font-weight: 700; background: #fff3c4; color: #3a2d00; }
+  .hx-sel optgroup { font-weight: 700; }
+  .hx-sum { margin-top: var(--cds-gap-md); display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; min-height: 24px; }
+  .hx-sum b { font-weight: var(--cds-font-weight-medium); }
+  .hx-title { font-size: 24px !important; font-weight: 800 !important; margin: 0 !important; text-wrap: balance; }
+  .hx-subline { margin-top: 4px !important; font-size: var(--cds-font-size-body) !important; }
+  .hx-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: var(--cds-gap-md); margin-top: var(--cds-gap-md); }
+  .hx-blk { border: 1px solid var(--color-border-line); border-left-width: 5px; border-radius: var(--cds-radius); padding: 10px 14px; min-width: 0; background: var(--color-bg); }
+  .hx-blk.good { border-left-color: var(--hx-a); } .hx-blk.req { border-left-color: var(--hx-r); } .hx-blk.bad { border-left-color: var(--hx-u); }
+  .hx-blk h3 { margin: 0 0 6px; font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); }
+  .hx-blk p { font-size: var(--cds-font-size-body); }
+  .hx-blk ul { margin: 6px 0 0; padding-left: 18px; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; line-height: 1.6; }
+  .hx-blk .cap { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); margin-top: 8px; }
+  .hx-selectable .hx-d[data-date] { cursor: pointer; }
+  .hx-d.sel-in, .hx-d.sel-out { outline: 3px solid var(--lc, var(--color-fg)); outline-offset: -3px; }
+  .hx-d.sel-mid { outline: 2px dashed var(--lc, var(--color-fg)); outline-offset: -2px; }
+  .hx-stay-pick { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; margin-top: var(--cds-gap-md); font-size: var(--cds-font-size-heading); }
+  .hx-stay-pick b { margin-left: 6px; font-variant-numeric: tabular-nums; }
+  .hx-fld { display: flex; flex-direction: column; gap: 4px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-weight: 700; min-width: 0; }
+  .hx-fld-row { display: flex; align-items: center; gap: 8px; }
+  .hx-in { width: 230px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--color-border-line); border-radius: 8px; background: var(--color-bg); color: var(--color-fg); font: inherit; font-size: var(--cds-font-size-heading); font-variant-numeric: tabular-nums; min-width: 0; }
+  .hx-in:focus-visible { outline: 2px solid #3f8ff0; outline-offset: 1px; }
+  .hx-wd-txt { color: var(--color-fg); font-size: var(--cds-font-size-heading); font-weight: 700; white-space: nowrap; }
+  .hx-stay-msg { margin-top: 8px !important; color: var(--color-bad) !important; min-height: 1em; }
+  .hx-stay-result { margin-top: var(--cds-gap-md); min-height: 24px; }
+  .hx-stay-head { font-size: var(--cds-font-size-heading); }
+  .hx-verdict { margin: 8px 0 12px; padding: 10px 14px; border-radius: var(--cds-radius); border-left: 5px solid; font-weight: 700; background: var(--color-bg); }
+  .hx-verdict.good { border-color: var(--hx-a); } .hx-verdict.req { border-color: var(--hx-r); }
+  .hx-verdict.bad { border-color: var(--hx-u); } .hx-verdict.warn { border-color: var(--color-fg-muted); }
+  .hx-nights { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 6px 16px; margin-bottom: 10px; }
+  .hx-night { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 6px 10px; border: 1px solid var(--color-border-line); border-radius: 6px; background: var(--color-bg); font-variant-numeric: tabular-nums; min-width: 0; }
+  .hx-night .chip { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; white-space: nowrap; }
+  .hx-night .chip .sw { width: 14px; height: 14px; margin: 0; flex: none; }
+  .hx-cal-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .hx-trip-cal { position: relative; }
+  .hx-trip-cal .hx-cal { min-height: 0; }
+  .hx-leg { border: 1px solid var(--color-border-line); border-left: 6px solid var(--lc, var(--color-fg-muted)); border-radius: var(--cds-radius); padding: 14px 16px; margin-bottom: var(--cds-gap-md); background: var(--color-bg); min-width: 0; }
+  .hx-leg-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .hx-leg-badge { background: var(--lc, var(--color-fg-muted)); color: #fff; font-weight: 800; padding: 4px 14px; border-radius: 999px; font-size: var(--cds-font-size-heading); }
+  .hx-drag { cursor: grab; user-select: none; padding: 5px 12px; border: 1px dashed var(--color-fg-muted); border-radius: 999px; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); font-weight: 700; }
+  .hx-drag:active { cursor: grabbing; }
+  .hx-leg.dragging { opacity: .45; }
+  .hx-leg.drop-target { outline: 3px dashed var(--lc, #3f8ff0); outline-offset: 3px; }
+  .hx-auto-note { font-weight: 400; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .hx-leg-sel { margin-top: var(--cds-gap-md); }
+  .hx-leg-res { margin-top: var(--cds-gap-md); }
+  .hx-in.act { border-color: var(--lc, #3f8ff0); box-shadow: 0 0 0 2px color-mix(in srgb, var(--lc, #3f8ff0) 35%, transparent); }
+  .hx-nights-n { font-size: var(--cds-font-size-heading); align-self: end; }
+  .hx-oth-h { margin: 14px 0 6px; font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); }
+  .hx-strip { display: inline-flex; flex-wrap: wrap; gap: 1px; max-width: 360px; justify-content: flex-end; }
+  .hx-sqi { display: inline-block; width: 13px; height: 13px; border-radius: 3px; margin: 1px; flex: none; }
+  .hx-vchip { display: inline-block; padding: 2px 10px; border-radius: 999px; font-weight: 700; font-size: var(--cds-font-size-caption); color: #26231f; }
+  .hx-vchip.good { background: var(--hx-a); } .hx-vchip.req { background: var(--hx-r); }
+  .hx-vchip.bad { background: var(--hx-u); } .hx-vchip.warn { background: var(--hx-p); }
+  .hx-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hx-tab { padding: 13px 26px; border-radius: 12px; border: 2px solid #8fbef0; background: #dcecfd; color: #1b4d8c; font: inherit; font-size: var(--cds-font-size-heading); font-weight: 800; cursor: pointer; box-shadow: 0 2px 0 rgba(63,143,240,.28); }
+  .hx-tab.on { background: linear-gradient(135deg, #34c3b5, #3f8ff0); color: #fff; border-color: #2c7fd9; box-shadow: 0 3px 0 rgba(27,77,140,.35); }
+  .hx-view { display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
+  .hx-isl-h { margin: 18px 0 8px; font-size: 18px; font-weight: 800; }
+  .hx-isl-h:first-child { margin-top: 0; }
+  .hx-hbox { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: 10px 14px; background: var(--color-bg); margin-bottom: 12px; min-width: 0; }
+  .hx-hhead { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 6px; align-items: baseline; }
+  .hx-hhead b { font-size: var(--cds-font-size-heading); }
+  .hx-wrap { overflow-x: auto; }
+  .hx table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+  .hx th { text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); padding: 6px 10px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+  .hx td { padding: 8px 10px; border-bottom: 1px solid var(--color-border-line); }
+  .hx td.n, .hx th.n { text-align: right; white-space: nowrap; }
+  .hx tr.rl { cursor: pointer; }
+  .hx tr.rl:hover { background: color-mix(in srgb, var(--color-fg) 6%, transparent); }
+  .hx tr.rl.pri { background: color-mix(in srgb, #ffd35a 22%, transparent); }
+  .hx tr.rl.pri td:first-child { font-weight: 700; }
+  .hx th i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .hx-legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0; padding: 0; list-style: none; font-size: var(--cds-font-size-caption); }
+  .hx-legend li { display: flex; align-items: flex-start; gap: 8px; min-width: 0; flex: 1 1 210px; }
+  .hx-legend .sw { flex: none; width: 16px; height: 16px; border-radius: 4px; margin-top: 1px; }
+  .hx-legend b { display: block; font-weight: var(--cds-font-weight-medium); color: var(--color-fg); }
+  .hx-legend span.t { color: var(--color-fg-muted); }
+  .sw.a, .hx-d.a { background: var(--hx-a); } .sw.r, .hx-d.r { background: var(--hx-r); }
+  .sw.n, .hx-d.n { background: var(--hx-n); } .sw.u, .hx-d.u { background: var(--hx-u); }
+  .sw.u, .hx-d.u { background: repeating-linear-gradient(135deg, var(--hx-u) 0 5px, #e46868 5px 8px); }
+  .hx-d.u, .hx-d.n { text-shadow: 0 0 3px rgba(255,255,255,.95), 0 0 1px #fff; font-weight: 700; }
+  .sw.r, .hx-d.r { color: #1b1b1b; }
+  .hx-d.n { color: #33302c; }
+  .sw.n, .hx-d.n { background: repeating-linear-gradient(45deg, var(--hx-n) 0 5px, rgba(255,255,255,.6) 5px 7px); }
+  .sw.p, .hx-d.p { background: var(--hx-p); }
+  .sw.x, .hx-d.x { background: transparent; border: 1px dashed var(--color-border-line); }
+  .hx-cal { position: relative; min-height: 220px; display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: var(--cds-gap-md); align-items: start; }
+  .hx-month { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: 10px; min-width: 0; background: var(--color-bg); }
+  .hx-month h3 { margin: 0 0 8px; font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); }
+  .hx-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+  .hx-wd { text-align: center; font-size: 15px; font-weight: 800; color: var(--color-fg-muted); padding-bottom: 4px; }
+  .hx-wd.sun { color: #e5484d; } .hx-wd.sat { color: #3b82f0; }
+  .hx-d { aspect-ratio: 1; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-variant-numeric: tabular-nums; color: #26231f; font-weight: 700; min-width: 0; }
+  .hx-d.p { color: var(--color-fg-muted); font-weight: 600; } .hx-d.x { color: var(--color-fg-muted); font-weight: 600; }
+  .hx-d.e { background: none; }
+  .hx-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); color: var(--cds-text-secondary); font-size: var(--cds-font-size-caption); padding: 6px 8px; border-radius: 6px; white-space: nowrap; z-index: 3; }
+  .hx-tip b { color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+  .hx details { color: var(--color-fg-muted); font-size: var(--cds-font-size-body); line-height: 1.55; }
+  .hx details summary { cursor: pointer; color: var(--color-fg); }
+  .hx details ul { margin: 8px 0 0; padding-left: 20px; }
+  [data-dash-source-state=refreshing] { opacity: .5; }
+
+
+  /* ---- final look: two typefaces (Noto Sans KR for text, Montserrat for titles), one spacing scale ---- */
+  .hx {
+    --f-body: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', var(--font-anthropic-sans), system-ui, sans-serif;
+    --f-disp: 'Montserrat', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+    --s2: 12px; --s3: 16px; --s4: 24px;
+    --r: 12px;
+    --ink: var(--color-fg);
+    --ink2: color-mix(in srgb, var(--color-fg) 74%, var(--color-bg));
+    --line: color-mix(in srgb, var(--color-fg) 22%, var(--color-bg));
+    --accent: #3f8ff0; --accent2: #34c3b5;
+    --hx-a: #8ad47a; --hx-r: #b79cf0; --hx-n: #b79cf0; --hx-u: #ef6f6f;
+    font-family: var(--f-body); font-size: 16px; line-height: 1.6; color: var(--ink);
+    word-break: keep-all; overflow-wrap: break-word;
+    gap: var(--s4); padding-block: var(--s4);
+  }
+  .hx h1, .hx h2, .hx h3, .hx h4 { margin: 0; text-wrap: balance; }
+  .hx h1 { font-family: var(--f-disp); font-size: 30px; font-weight: 800; line-height: 1.3; letter-spacing: -.01em; }
+  .hx header p { margin-top: var(--s2) !important; font-size: 16px !important; }
+  .hx h2 { font-family: var(--f-disp); font-size: 20px !important; font-weight: 800 !important; line-height: 1.35; margin: 0 0 var(--s2) !important; color: var(--ink); }
+  .hx h3 { font-size: 17px; font-weight: 800; color: var(--ink); }
+  .hx-title { font-size: 26px !important; }
+  .hx-subline { font-size: 16px !important; margin-top: 4px !important; }
+  .hx-muted { font-size: 14px !important; line-height: 1.6; font-weight: 500 !important; color: var(--ink2) !important; }
+  .hx-card > .hx-muted { margin: 0 0 var(--s3) !important; }
+  .hx-card { padding: 22px 24px; border: 1.5px solid var(--line); border-radius: var(--r); background: var(--color-panel); box-shadow: 0 1px 6px rgba(30, 40, 60, .08); }
+  .hx-view { gap: var(--s4); }
+
+  /* tabs */
+  .hx-tabs { gap: var(--s2); }
+  .hx-tab { font-family: var(--f-disp); font-size: 16px; font-weight: 800; min-height: 48px; padding: 12px 24px; border-radius: 10px; border: 2px solid color-mix(in srgb, var(--accent) 55%, var(--color-bg)); background: color-mix(in srgb, var(--accent) 12%, var(--color-bg)); color: var(--ink); box-shadow: none; }
+  .hx-tab.on { background: linear-gradient(135deg, var(--accent2), var(--accent)); color: #fff; border-color: transparent; }
+
+  /* buttons: plain, same size everywhere */
+  .hx-btn { font: inherit; font-size: 14px; font-weight: 700; min-height: 38px; padding: 6px 14px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--color-bg); color: var(--ink); box-shadow: none; cursor: pointer; }
+  .hx-btn:hover:not(:disabled) { background: color-mix(in srgb, var(--accent) 10%, var(--color-bg)); border-color: var(--accent); }
+  .hx-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .hx-btn:disabled { opacity: .45; cursor: not-allowed; }
+  .hx-btn.nav { border-color: color-mix(in srgb, var(--accent2) 70%, var(--color-bg)); }
+  .hx-btn.warn { border-color: #f2b685; }
+  .hx-btn.link { border-color: #c4a6ef; }
+
+  /* the two areas that matter: choosing, and the date-by-date result */
+  #pick-section { border-top: 6px solid var(--accent); }
+  #info-section { border-top: 6px solid var(--accent2); }
+  .hx-sel { gap: var(--s3); }
+  .hx-sel .hx-pick { gap: 8px; padding: 14px 16px 16px; border: 2px solid; border-radius: var(--r); font-size: 14px; font-weight: 800; color: #3a342e; }
+  .hx-sel .hx-pick.p1 { background: #d3e7fb; border-color: #9cc6f1; }
+  .hx-sel .hx-pick.p2 { background: #fbdcc4; border-color: #efb98d; }
+  .hx-sel .hx-pick.p3 { background: #cdeee6; border-color: #8fd3c3; }
+  .hx select, .hx .dash-select, .hx-in { min-height: 46px; font-family: var(--f-body); font-size: 16px !important; font-weight: 600; border: 2px solid color-mix(in srgb, var(--color-fg) 32%, var(--color-bg)) !important; border-radius: 10px; color: var(--ink); }
+  .hx-in:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
+  .hx-sum { margin-top: var(--s3); gap: 8px 20px; font-size: 16px; }
+
+  /* island cards: each island has its own light background so they read as separate blocks */
+  .hx-leg { padding: 20px 22px; margin-bottom: var(--s4); border: 1.5px solid color-mix(in srgb, var(--lc, #8a94a0) 40%, var(--line)); border-left: 8px solid var(--lc, var(--ink2)); border-radius: var(--r); background: color-mix(in srgb, var(--lc, #8a94a0) 13%, var(--color-bg)); box-shadow: 0 1px 6px rgba(30, 40, 60, .08); }
+  .hx-leg-head { gap: var(--s2); margin: 0; align-items: center; }
+  .hx-leg-badge { font-family: var(--f-disp); font-size: 17px; font-weight: 800; padding: 5px 16px; }
+  .hx-drag { font-size: 14px; font-weight: 700; padding: 6px 12px; background: var(--color-bg); }
+  .hx-leg-pick { margin-top: var(--s3); padding: 16px 18px; border: 2px solid color-mix(in srgb, var(--lc, #8a94a0) 55%, var(--color-bg)); border-radius: var(--r); background: var(--color-panel); }
+  .hx-leg-res { margin-top: var(--s3); padding: 16px 18px; border: 2px solid color-mix(in srgb, var(--lc, #8a94a0) 55%, var(--color-bg)); border-radius: var(--r); background: var(--color-panel); }
+  .hx-leg .hx-pick { background: var(--color-panel); border-color: color-mix(in srgb, var(--lc, #8a94a0) 45%, var(--color-bg)); color: var(--ink); }
+  .hx-panel-label { display: flex; align-items: center; gap: 8px; margin: 0 0 var(--s2); font-size: 14px; font-weight: 800; color: var(--ink); }
+  .hx-panel-label::before { content: ''; width: 5px; height: 16px; border-radius: 3px; background: var(--lc, var(--accent)); }
+  .hx-stay-pick { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--s3) var(--s4); margin: 0; }
+  .hx-fld { gap: 6px; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .hx-fld-row { gap: 10px; }
+  .hx-in { width: 240px; }
+  .hx-nights-sel { min-width: 150px; }
+  .hx-wd-txt { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .hx-nights-n { align-self: center; font-size: 16px; font-weight: 800; color: var(--ink); }
+  .hx-auto-note { font-size: 13px; font-weight: 500; color: var(--ink2); }
+  .hx-leg-sel { margin-top: var(--s3); }
+
+  .hx-stay-head { margin: 0 0 var(--s2); font-size: 16px; font-weight: 600; }
+  .hx-stay-head b { font-weight: 800; }
+  .hx-verdict { margin: 0 0 var(--s3); padding: 12px 16px; border-left-width: 8px; font-size: 17px; font-weight: 800; }
+  .hx-verdict.good { background: color-mix(in srgb, var(--hx-a) 30%, var(--color-bg)); }
+  .hx-verdict.req { background: color-mix(in srgb, var(--hx-r) 30%, var(--color-bg)); }
+  .hx-verdict.bad { background: color-mix(in srgb, var(--hx-u) 26%, var(--color-bg)); }
+  .hx-verdict.warn { background: color-mix(in srgb, var(--color-fg-muted) 22%, var(--color-bg)); }
+  .hx-nights { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--s2); margin-bottom: var(--s3); }
+  .hx-night { padding: 10px 14px; border: 0; border-left: 6px solid var(--line); border-radius: 8px; font-size: 16px; font-weight: 600; background: var(--color-bg); }
+  .hx-night .dt { font-weight: 800; }
+  .hx-night .chip { font-size: 15px; font-weight: 800; }
+  .hx-night .chip .sw { width: 18px; height: 18px; }
+  .hx-night.n-a { border-left-color: var(--hx-a); background: color-mix(in srgb, var(--hx-a) 18%, var(--color-bg)); }
+  .hx-night.n-r, .hx-night.n-n { border-left-color: var(--hx-r); background: color-mix(in srgb, var(--hx-r) 18%, var(--color-bg)); }
+  .hx-night.n-u { border-left-color: var(--hx-u); background: color-mix(in srgb, var(--hx-u) 16%, var(--color-bg)); }
+  .hx-night.n-p, .hx-night.n-x { border-left-color: var(--ink2); }
+  .hx-oth-h { margin: var(--s3) 0 var(--s2); font-size: 15px; font-weight: 800; color: var(--ink); }
+  .hx table { font-size: 15px; }
+  .hx th { padding: 8px 12px; font-size: 14px; font-weight: 700; color: var(--ink2); }
+  .hx td { padding: 10px 12px; font-weight: 600; }
+  .hx tr.rl.pri td:first-child { font-weight: 800; }
+  .hx-sqi { width: 16px; height: 16px; }
+  .hx-vchip { padding: 3px 12px; font-size: 14px; font-weight: 800; color: #1c1813; }
+
+  /* blocks, legend, calendar */
+  .hx-two { gap: var(--s3); margin-top: var(--s3); }
+  .hx-blk { padding: 14px 16px; border: 1.5px solid var(--line); border-left-width: 7px; border-radius: var(--r); }
+  .hx-blk.good { border-left-color: var(--hx-a); } .hx-blk.req { border-left-color: var(--hx-r); } .hx-blk.bad { border-left-color: var(--hx-u); }
+  .hx-blk h3 { margin: 0 0 6px; font-size: 17px; }
+  .hx-blk p, .hx-blk ul { font-size: 16px; }
+  .hx-blk .cap { font-size: 14px; }
+  .hx-legend { gap: var(--s3) var(--s4); font-size: 15px; }
+  .hx-legend .sw { width: 22px; height: 22px; border-radius: 5px; }
+  .hx-legend b { font-size: 16px; font-weight: 800; }
+  .hx-legend span.t { color: var(--ink2); }
+  .sw.u, .hx-d.u { background: repeating-linear-gradient(135deg, var(--hx-u) 0 5px, #d94f4f 5px 8px); }
+  .hx-cal { gap: var(--s3); }
+  .hx-month { padding: 12px; border: 1.5px solid var(--line); border-radius: var(--r); }
+  .hx-month h3 { margin-bottom: 10px; font-size: 17px; }
+  .hx-wd { font-size: 15px; font-weight: 800; }
+  .hx-d { font-size: 15px; font-weight: 600; color: #1c1813; }
+  .hx-d.p, .hx-d.x { font-weight: 500; color: var(--ink2); }
+  .hx details { font-size: 15px; }
+  .hx-leg-badge { background: color-mix(in srgb, var(--lc, #8a94a0) 32%, var(--color-bg)); color: var(--ink); border: 2px solid color-mix(in srgb, var(--lc, #8a94a0) 65%, var(--color-bg)); }
+  .hx-drag { border-color: color-mix(in srgb, var(--lc, #8a94a0) 55%, var(--color-bg)); border-style: dashed; }
+  .hx-cal { align-items: stretch; }
+  .hx-month { display: flex; flex-direction: column; }
+  .hx-month .hx-grid { flex: 1; align-content: start; }
+  /* date row: three fields of the same height on one baseline */
+  .hx-stay-pick { align-items: flex-start; }
+  .hx-fld, .hx-fld-row { min-width: 0; }
+  .hx-fld-row { display: flex; align-items: center; min-height: 46px; }
+  .hx-fld-row .hx-in, .hx-fld-row select { height: 46px; box-sizing: border-box; }
+  .hx-wd-txt { display: inline-flex; align-items: center; min-width: 2.2em; }
+  .hx-out-box { display: inline-flex; align-items: center; min-height: 46px; box-sizing: border-box; padding: 0 14px; border: 2px solid var(--line); border-radius: 10px; background: color-mix(in srgb, var(--lc, #8a94a0) 10%, var(--color-panel)); font-size: 16px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .hx-out-box.empty { font-weight: 500; font-size: 14px; color: var(--ink2); white-space: normal; }
+  .hx-note-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); margin-top: var(--s2); }
+  /* check-out box looks exactly like the check-in box (it is just not editable) */
+  .hx-out-box { width: 240px; max-width: 100%; height: 46px; box-sizing: border-box; padding: 0 12px; display: inline-flex; align-items: center; border: 2px solid color-mix(in srgb, var(--color-fg) 32%, var(--color-bg)); border-radius: 10px; background: color-mix(in srgb, var(--color-fg) 4%, var(--color-bg)); font-family: var(--f-body); font-size: 17px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .hx-out-box.empty { font-size: 16px; font-weight: 500; color: var(--ink2); }
+</style>
+</head><body>
+<div id="dash-root">
+<div class="hx">
+  <header>
+    <h1>TAHITI NUI TRAVEL 호텔 객실 현황 조회</h1>
+    <p class="hx-muted" style="margin-top:8px;font-size:var(--cds-font-size-body)">섬, 리조트, 객실 순서로 고르면 날짜별 예약 상황이 달력으로 나옵니다.</p>
+  </header>
+
+  <nav class="hx-tabs" aria-label="보기 선택">
+    <button type="button" class="hx-tab on" id="tab-detail" data-view="detail" aria-selected="true">객실현황 조회</button>
+    <button type="button" class="hx-tab" id="tab-stay" data-view="stay" aria-selected="false">여행 일정 조회</button>
+  </nav>
+
+  <div class="hx-view" id="view-pick">
+  <section class="hx-card" id="pick-section">
+    <div class="hx-sel">
+      <label class="hx-pick p1" for="sel-island">섬<select class="dash-select" id="sel-island" data-draw="sel_island" data-source="rooms" data-field="island"></select></label>
+      <label class="hx-pick p2" for="sel-hotel">리조트<select class="dash-select" id="sel-hotel" data-draw="sel_hotel" data-source="rooms" data-field="hotel"></select></label>
+      <label class="hx-pick p3" for="sel-room">객실<select class="dash-select" id="sel-room" data-draw="sel_room" data-source="rooms" data-field="room_type"></select></label>
+    </div>
+    <div class="hx-sum" data-draw="summary" data-source="rooms">—</div>
+  </section>
+  </div>
+
+  <div class="hx-view" id="view-detail">
+  <section class="hx-card" id="info-section">
+    <h2 class="hx-title" data-draw="hotel_title" data-source="rooms" data-field="hotel">—</h2>
+    <p class="hx-muted hx-subline" data-draw="hotel_sub" data-source="rooms" data-field="room_type">—</p>
+    <div class="hx-two">
+      <div class="hx-blk good"><h3>즉시 예약 가능</h3><div data-draw="good_dates" data-source="rooms" data-field="codes">—</div></div>
+      <div class="hx-blk req"><h3>예약 요청 가능</h3><div data-draw="req_dates" data-source="rooms" data-field="codes">—</div></div>
+      <div class="hx-blk bad"><h3>예약 불가</h3><div data-draw="bad_dates" data-source="rooms" data-field="codes">—</div></div>
+    </div>
+  </section>
+
+  <section class="hx-card" id="cal-section">
+    <h2 id="cal-title">예약 가능 달력</h2>
+    <div class="hx-cal" data-draw="calendar" data-source="rooms" data-field="codes">—</div>
+  </section>
+  </div>
+
+  <div class="hx-view" id="view-legend">
+  <section class="hx-card" id="legend-section">
+    <h2 id="legend-title">색상 설명</h2>
+    <ul class="hx-legend" aria-labelledby="legend-title">
+      <li><span class="sw a"></span><div><b>연두 · 예약 가능</b><span class="t">바로 예약할 수 있는 날</span></div></li>
+      <li><span class="sw r"></span><div><b>보라 단색 · 요청 시 가능</b><span class="t">요청을 넣고 호텔 확인을 받아야 하는 날</span></div></li>
+      <li><span class="sw n"></span><div><b>보라 + 흰 줄무늬 · 요청 가능, 할인 요금 불가</b><span class="t">요청은 가능하지만 할인·계약 요금은 쓸 수 없는 날. St Regis, Westin만 해당</span></div></li>
+      <li><span class="sw u"></span><div><b>붉은색(빗금) · 예약 불가</b><span class="t">마감되었거나 판매 중지인 날</span></div></li>
+      <li><span class="sw p"></span><div><b>연회색 · 지난 날짜</b><span class="t">오늘 이전이거나 최종 업데이트 날짜보다 이전인 날</span></div></li>
+      <li><span class="sw x"></span><div><b>점선 · 보고서에 없음</b><span class="t">이 객실의 보고서에 해당 날짜가 없는 날</span></div></li>
+    </ul>
+  </section>
+  </div>
+
+  <div class="hx-view" id="view-stay" hidden>
+  <section class="hx-card" id="trip-legs-section">
+    <h2 id="trip-legs-title">섬별 숙박 일정</h2>
+    <p class="hx-muted" style="margin-bottom:12px">"⠿ 끌어서 이동" 표시를 끌어 다른 섬 칸 위에 놓으면 섬 순서가 바뀝니다. 끌기가 안 되는 화면에서는 ▲ 위로, ▼ 아래로 버튼을 쓰세요. 앞 섬의 체크아웃 날짜가 다음 섬의 체크인 날짜로 자동 입력됩니다. 다른 날짜로 바꾸려면 체크인을 직접 입력하세요. 체크인은 2026-12-05, 20261205, 2026.12.05, 2026년 12월 5일처럼 편한 형식으로 입력하면 됩니다. 방문하지 않는 섬은 "건너뛰기"를 누르세요. 날짜를 정한 뒤 리조트와 객실을 고르면 숙박일마다 예약 상태가 나옵니다.</p>
+    <div data-draw="trip_legs" data-source="rooms" data-field="codes">—</div>
+    <p class="hx-muted hx-stay-msg" data-draw="trip_msg"></p>
+  </section>
+  <section class="hx-card" id="legend2-section">
+    <h2 id="legend2-title">색상 설명</h2>
+    <ul class="hx-legend" aria-labelledby="legend2-title">
+      <li><span class="sw a"></span><div><b>연두 · 예약 가능</b><span class="t">바로 예약할 수 있는 날</span></div></li>
+      <li><span class="sw r"></span><div><b>보라 단색 · 요청 시 가능</b><span class="t">요청을 넣고 호텔 확인을 받아야 하는 날</span></div></li>
+      <li><span class="sw n"></span><div><b>보라 + 흰 줄무늬 · 요청 가능, 할인 요금 불가</b><span class="t">요청은 가능하지만 할인·계약 요금은 쓸 수 없는 날. St Regis, Westin만 해당</span></div></li>
+      <li><span class="sw u"></span><div><b>붉은색(빗금) · 예약 불가</b><span class="t">마감되었거나 판매 중지인 날</span></div></li>
+      <li><span class="sw p"></span><div><b>연회색 · 지난 날짜</b><span class="t">오늘 이전이거나 최종 업데이트 날짜보다 이전인 날</span></div></li>
+      <li><span class="sw x"></span><div><b>점선 · 보고서에 없음</b><span class="t">이 객실의 보고서에 해당 날짜가 없는 날</span></div></li>
+    </ul>
+  </section>
+  </div>
+
+  <details id="notes">
+    <summary>이 화면의 기준</summary>
+    <ul>
+      <li>각 호텔이 보낸 최신 보고서를 날짜·객실 타입별 상태로 바꾼 자료입니다. 최종 업데이트는 호텔 보고서의 발행일이며 호텔마다 다릅니다. 선택한 리조트의 날짜를 위에 표시합니다.</li>
+      <li>The Brando는 보고서가 날짜별 상태 하나뿐이라 객실 구분 없이 "전체 객실"로 표시합니다. 항상 요청이라고 적힌 객실 타입은 같은 날 상태가 불가가 아니면 요청으로 해석했으며 이 해석은 확인이 필요합니다.</li>
+      <li>Cook's Bay의 일부 스위트와 Le Tikehau by Pearl은 아직 포함하지 않았습니다. Sofitel Kia Ora는 최신 보고서가 암호화 파일이라 이전에 읽은 판을 쓰고 있습니다.</li>
+    </ul>
+  </details>
+</div>
+
+
+</div>
+<script>
+(function () {
+  var reg = new Map();
+  var store = { rooms: { status: 'loading', data: [], columns: [] } };
+  function parseCSV(text) {
+    var rows = [], row = [], cur = '', q = false;
+    text = text.replace(/^\uFEFF/, '');
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += c;
+      } else if (c === '"') q = true;
+      else if (c === ',') { row.push(cur); cur = ''; }
+      else if (c === '\n') { row.push(cur); rows.push(row); row = []; cur = ''; }
+      else if (c !== '\r') cur += c;
+    }
+    if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
+    var head = rows.shift() || [];
+    return { columns: head, data: rows.filter(function (r) { return r.length > 1; }).map(function (r) {
+      var o = {}; head.forEach(function (h, j) { o[h] = r[j] === undefined ? '' : r[j]; }); return o; }) };
+  }
+  function runName(name) {
+    var fn = reg.get(name);
+    if (!fn) return;
+    document.querySelectorAll('[data-draw="' + name + '"]').forEach(function (el) {
+      try { fn(el); } catch (e) { console.error('draw ' + name, e); }
+    });
+  }
+  function runAll() { reg.forEach(function (_f, n) { runName(n); }); }
+  window.dash = {
+    data: function (id) { return store[id] || { status: 'missing', data: [], columns: [] }; },
+    draw: function (name, fn) { if (typeof fn === 'function') reg.set(name, fn); else runName(name); },
+    setLink: function (name) { try { history.replaceState(null, '', '#' + name); } catch (e) { /* ignore */ } }
+  };
+  setTimeout(function () {
+    runAll();
+    fetch('availability_rooms.csv', { cache: 'no-cache' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .then(function (t) { var p = parseCSV(t); store.rooms = { status: 'ok', data: p.data, columns: p.columns }; runAll(); })
+      .catch(function (e) { console.error(e); store.rooms = { status: 'error', data: [], columns: [] }; runAll(); });
+  }, 0);
+})();
+</script>
+<script>
+  const ORDER = ['보라보라', '모레아', '타히티', '타하', '테티아로아'];
+  const ST = {
+    a: ['예약 가능', 'a'], r: ['요청 시 가능', 'r'], n: ['요청 가능, 할인 요금 불가', 'n'],
+    u: ['예약 불가', 'u'], p: ['지난 날짜', 'p'], '-': ['보고서에 없음', 'x']
+  };
+  const state = { island: null, hotel: null, room: null, checkin: null, checkout: null };
+
+  const pad2 = (n) => String(n).padStart(2, '0');
+  const todayIso = () => { const d = new Date(); return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); };
+  let viewCache = null;
+  // days before today become 'p' (grey, not selectable); '-' (not in the report) stays '-'
+  const viewRows = (g) => {
+    const dd = (g.data[0] && g.data[0].data_date) || '';
+    const now = todayIso();
+    const today = dd > now ? dd : now;
+    if (viewCache && viewCache.src === g.data && viewCache.today === today) return viewCache.rows;
+    const tMs = Date.UTC(+today.slice(0, 4), +today.slice(5, 7) - 1, +today.slice(8, 10));
+    const rows = g.data.map((r) => {
+      const [y, m, d] = r.start.split('-').map(Number);
+      const k = Math.max(0, Math.min(r.codes.length, Math.round((tMs - Date.UTC(y, m - 1, d)) / 864e5)));
+      return k ? Object.assign({}, r, { codes: r.codes.slice(0, k).replace(/[^-]/g, 'p') + r.codes.slice(k) }) : r;
+    });
+    viewCache = { src: g.data, today, rows };
+    return rows;
+  };
+  const cutoffIso = () => { const g = dash.data('rooms'); const dd = (g.status === 'ok' && g.data[0] && g.data[0].data_date) || ''; const now = todayIso(); return dd > now ? dd : now; };
+  const rowsOf = () => { const g = dash.data('rooms'); return g.status === 'ok' ? viewRows(g) : null; };
+
+  // each hotel has a link name (#conrad-bora-bora-nui) so the homepage can open a hotel directly
+  const slug = (h) => h.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  let hashApplied = false;
+  function hashParts() {
+    const h = location.hash.replace(/^#/, '');
+    if (h === 'stay-check') return { view: 'stay', key: '' };
+    return { view: 'detail', key: h };
+  }
+  function applyHash(rows) {
+    const key = hashParts().key;
+    const r = key ? rows.find((x) => slug(x.hotel) === key) : null;
+    if (!r) return false;
+    state.island = r.island; state.hotel = r.hotel; state.room = null;
+    return true;
+  }
+  window.addEventListener('hashchange', () => {
+    if (hashParts().view === 'stay') { setView('stay', true); return; }
+    const rows = rowsOf();
+    if (rows && applyHash(rows)) setView('detail', true);
+  });
+
+  // keeps island -> hotel -> room consistent; falls back to the first choice at each level
+  function resolve(rows) {
+    if (!hashApplied) { hashApplied = true; applyHash(rows); }
+    const islands = [...new Set(rows.map((r) => r.island))]
+      .sort((a, b) => (ORDER.indexOf(a) + 1 || 99) - (ORDER.indexOf(b) + 1 || 99));
+    if (!islands.includes(state.island)) state.island = islands[0];
+    const hotels = [...new Set(rows.filter((r) => r.island === state.island).map((r) => r.hotel))];
+    if (!hotels.includes(state.hotel)) state.hotel = hotels[0];
+    const rooms = rows.filter((r) => r.hotel === state.hotel).map((r) => r.room_type);
+    if (!rooms.includes(state.room)) state.room = rooms[0];
+    return { islands, hotels, rooms, row: rows.find((r) => r.hotel === state.hotel && r.room_type === state.room) };
+  }
+  const INFO = ['hotel_title', 'hotel_sub', 'good_dates', 'req_dates', 'bad_dates'];
+  const redrawFrom = (names) => [...names, ...INFO].forEach((n) => dash.draw(n));
+  const ISLAND_EN = { '보라보라': 'Bora Bora', '모레아': 'Moorea', '타히티': 'Tahiti', '타하': 'Tahaa', '테티아로아': 'Tetiaroa' };
+  const fill = (el, status, values, current, onPick, label) => {
+    if (status !== 'ok') { el.replaceChildren(new Option(status === 'error' ? '불러오지 못했습니다' : '—', '')); el.disabled = true; return; }
+    el.disabled = false;
+    el.replaceChildren(...values.map((v) => new Option(label ? label(v) : v, v)));
+    el.value = current;
+    el.onchange = () => onPick(el.value);
+  };
+
+  dash.draw('sel_island', (el) => {
+    const rows = rowsOf(); const g = dash.data('rooms');
+    if (!rows) return fill(el, g.status, [], '', null);
+    const r = resolve(rows);
+    fill(el, 'ok', r.islands, state.island, (v) => { state.island = v; state.hotel = null; state.room = null; redrawFrom(['sel_hotel', 'sel_room', 'summary', 'calendar']); dash.setLink(slug(state.hotel)); }, (v) => ISLAND_EN[v] || v);
+  });
+  dash.draw('sel_hotel', (el) => {
+    const rows = rowsOf(); const g = dash.data('rooms');
+    if (!rows) return fill(el, g.status, [], '', null);
+    const r = resolve(rows);
+    fill(el, 'ok', r.hotels, state.hotel, (v) => { state.hotel = v; state.room = null; redrawFrom(['sel_room', 'summary', 'calendar']); dash.setLink(slug(v)); });
+  });
+  dash.draw('sel_room', (el) => {
+    const rows = rowsOf(); const g = dash.data('rooms');
+    if (!rows) return fill(el, g.status, [], '', null);
+    resolve(rows);
+    // priority rooms first (in the order given), then the rest alphabetically; the file already holds that order
+    const list = rows.filter((x) => x.hotel === state.hotel);
+    const pri = list.filter((x) => x.priority !== '' && x.priority != null);
+    const mk = (x, star) => { const o = new Option((star ? '★ ' : '') + x.room_type, x.room_type); if (star) o.className = 'pri'; return o; };
+    el.disabled = false;
+    if (pri.length) {
+      const g1 = document.createElement('optgroup'); g1.label = '★ 중요 객실';
+      pri.forEach((x) => g1.appendChild(mk(x, true)));
+      const g2 = document.createElement('optgroup'); g2.label = '전체 객실 (알파벳순)';
+      list.filter((x) => !pri.includes(x)).forEach((x) => g2.appendChild(mk(x, false)));
+      el.replaceChildren(g1, g2);
+    } else {
+      el.replaceChildren(...list.map((x) => mk(x, false)));
+    }
+    el.value = state.room;
+    el.onchange = () => { state.room = el.value; redrawFrom(['summary', 'calendar']); };
+  });
+
+  const counts = (row) => {
+    const c = { a: 0, r: 0, n: 0, u: 0 };
+    for (const ch of row.codes) if (c[ch] != null) c[ch]++;
+    return c;
+  };
+
+  dash.draw('summary', (el) => {
+    const rows = rowsOf();
+    el.replaceChildren();
+    if (!rows) { el.textContent = '—'; return; }
+    const { row } = resolve(rows);
+    if (!row) return;
+    const add = (txt, bold) => { const s = document.createElement(bold ? 'b' : 'span'); s.textContent = txt; el.appendChild(s); return s; };
+    add('최종 업데이트 ' + row.report_date, true);
+    const c = counts(row);
+    ['a', 'r', 'n', 'u'].forEach((k) => {
+      if (k === 'n' && !c.n) return;
+      const s = document.createElement('span');
+      s.style.cssText = 'display:inline-flex;align-items:center;gap:6px';
+      const sw = document.createElement('i');
+      sw.className = 'sw ' + k; sw.style.cssText = 'width:12px;height:12px;border-radius:3px;display:inline-block';
+      s.appendChild(sw);
+      s.appendChild(document.createTextNode(ST[k][0] + ' ' + c[k] + '일'));
+      el.appendChild(s);
+    });
+  });
+
+  const iso = (t0, i) => new Date(t0 + i * 864e5).toISOString().slice(0, 10);
+  const selected = () => { const rows = rowsOf(); return rows ? resolve(rows).row : null; };
+
+  dash.draw('hotel_title', (el) => { const row = selected(); el.textContent = row ? row.hotel : '—'; });
+  dash.draw('hotel_sub', (el) => {
+    const row = selected();
+    el.textContent = row ? (ISLAND_EN[row.island] || row.island) + ' · ' + row.room_type + ' · 최종 업데이트 ' + row.report_date + (row.priority ? ' · ★ 중요 객실' : '') : '—';
+  });
+
+  // date summary for one status code: total days, nearest day, and the longest runs
+  const datesBlock = (code, emptyText) => (el) => {
+    el.replaceChildren();
+    const row = selected();
+    if (!row) { el.textContent = '—'; return; }
+    const [sy, sm, sd] = row.start.split('-').map(Number);
+    const t0 = Date.UTC(sy, sm - 1, sd);
+    const runs = [];
+    let total = 0, i = 0;
+    const s = row.codes;
+    while (i < s.length) {
+      if (!code.includes(s[i])) { i++; continue; }
+      let j = i;
+      while (j + 1 < s.length && code.includes(s[j + 1])) j++;
+      runs.push({ from: i, to: j, len: j - i + 1 });
+      total += j - i + 1; i = j + 1;
+    }
+    const add = (tag, txt, cls) => { const n = document.createElement(tag); n.textContent = txt; if (cls) n.className = cls; el.appendChild(n); return n; };
+    if (!runs.length) { add('p', emptyText); return; }
+    const p = document.createElement('p');
+    const b = document.createElement('b'); b.textContent = total + '일'; p.appendChild(b);
+    p.appendChild(document.createTextNode(' · 가장 가까운 날짜 ' + iso(t0, runs[0].from)));
+    const nd = [...s].filter((ch) => ch === 'n').length;
+    if (code.includes('n') && nd) { const m = document.createElement('div'); m.className = 'cap'; m.textContent = '할인 요금 불가 ' + nd + '일 포함'; p.appendChild(m); }
+    el.appendChild(p);
+    add('div', '연속 구간 (긴 순서)', 'cap');
+    const ul = document.createElement('ul');
+    [...runs].sort((x, y) => y.len - x.len || x.from - y.from).slice(0, 3).forEach((r) => {
+      const li = document.createElement('li');
+      li.textContent = (r.len === 1 ? iso(t0, r.from) : iso(t0, r.from) + ' ~ ' + iso(t0, r.to)) + ' (' + r.len + '일)';
+      ul.appendChild(li);
+    });
+    el.appendChild(ul);
+  };
+  dash.draw('good_dates', datesBlock('a', '즉시 예약 가능한 날짜가 없습니다'));
+  dash.draw('req_dates', datesBlock('rn', '예약 요청 가능한 날짜가 없습니다'));
+  dash.draw('bad_dates', datesBlock('u', '예약 불가인 날짜가 없습니다'));
+
+  dash.draw('calendar', (el) => {
+    const g = dash.data('rooms');
+    el.replaceChildren();
+    if (g.status !== 'ok') { el.textContent = g.status === 'error' ? '불러오지 못했습니다' : '—'; return; }
+    const { row } = resolve(viewRows(g));
+    if (!row) { el.textContent = '선택한 객실의 자료가 없습니다'; return; }
+    const [sy, sm, sd] = row.start.split('-').map(Number);
+    const t0 = Date.UTC(sy, sm - 1, sd);
+    const codes = row.codes;
+    const at = (y, m, d) => { const i = Math.round((Date.UTC(y, m, d) - t0) / 864e5); return i >= 0 && i < codes.length ? codes[i] : '-'; };
+    const first = codes.search(/[^-]/); const last = codes.length - 1 - [...codes].reverse().join('').search(/[^-]/);
+    if (first < 0) { el.textContent = '선택한 객실의 날짜 자료가 없습니다'; return; }
+    const d0 = new Date(t0 + first * 864e5), d1 = new Date(t0 + last * 864e5);
+    const tip = document.createElement('div'); tip.className = 'hx-tip'; tip.style.display = 'none';
+    const show = (ev, cellEl) => {
+      const r = el.getBoundingClientRect();
+      tip.replaceChildren();
+      const b = document.createElement('b'); b.textContent = cellEl.dataset.date; tip.appendChild(b);
+      tip.appendChild(document.createElement('br'));
+      tip.appendChild(document.createTextNode(cellEl.dataset.label));
+      tip.style.display = 'block';
+      const tw = tip.offsetWidth;
+      tip.style.left = Math.min(Math.max(ev.clientX - r.left + 12, 0), r.width - tw) + 'px';
+      tip.style.top = (ev.clientY - r.top + 14) + 'px';
+    };
+    let y = d0.getUTCFullYear(), m = d0.getUTCMonth();
+    const endY = d1.getUTCFullYear(), endM = d1.getUTCMonth();
+    while (y < endY || (y === endY && m <= endM)) {
+      const card = document.createElement('div'); card.className = 'hx-month';
+      const h = document.createElement('h3'); h.textContent = y + '년 ' + (m + 1) + '월'; card.appendChild(h);
+      const grid = document.createElement('div'); grid.className = 'hx-grid'; card.appendChild(grid);
+      ['일', '월', '화', '수', '목', '금', '토'].forEach((w, i) => { const x = document.createElement('div'); x.className = 'hx-wd' + (i === 0 ? ' sun' : i === 6 ? ' sat' : ''); x.textContent = w; grid.appendChild(x); });
+      const lead = new Date(Date.UTC(y, m, 1)).getUTCDay();
+      for (let i = 0; i < lead; i++) { const e = document.createElement('div'); e.className = 'hx-d e'; grid.appendChild(e); }
+      const dim = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+      for (let d = 1; d <= dim; d++) {
+        const ch = at(y, m, d); const [label, cls] = ST[ch] || ST['-'];
+        const c = document.createElement('div'); c.className = 'hx-d ' + cls; c.textContent = d;
+        c.dataset.date = y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+        c.dataset.label = label;
+        c.setAttribute('aria-label', c.dataset.date + ' ' + label);
+        c.addEventListener('mousemove', (ev) => show(ev, c));
+        c.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
+        grid.appendChild(c);
+      }
+      // every month is drawn with six week rows, so all month boxes end up the same size
+      for (let i = lead + dim; i < 42; i++) { const e = document.createElement('div'); e.className = 'hx-d e'; grid.appendChild(e); }
+      el.appendChild(card);
+      m++; if (m > 11) { m = 0; y++; }
+    }
+    el.appendChild(tip);
+  });
+
+  // ---- trip page: legs per island (island -> check-in/out -> resort -> room); the picker calendar fills the active date box ----
+  const WD = ['일', '월', '화', '수', '목', '금', '토'];
+  const LEG_COLORS = ['#3f8ff0', '#e8833a', '#8e5fd6', '#2aa88a', '#d6568f', '#6b7a8f'];
+  const trip = { legs: [], active: { leg: 0, field: 'in' }, win: null, msg: '' };
+  // each island keeps its own colour, wherever it sits in the order
+  const colorOf = (island) => LEG_COLORS[Math.max(0, ['보라보라', '모레아', '타히티', '타하', '테티아로아'].indexOf(island)) % LEG_COLORS.length];
+  // reorder by dragging a card (handle in its header) or with the up/down buttons
+  let dragFrom = null;
+  function moveLegTo(from, to) {
+    if (from === to || from < 0 || to < 0 || from >= trip.legs.length || to >= trip.legs.length) return;
+    const act = trip.legs[trip.active.leg];
+    const [m] = trip.legs.splice(from, 1);
+    trip.legs.splice(to, 0, m);
+    trip.active = { leg: Math.max(0, trip.legs.indexOf(act)), field: 'in' };
+    trip.msg = '';
+    tripRedraw();
+  }
+  const moveLeg = (li, dir) => moveLegTo(li, li + dir);
+  const msOf = (iso) => { const [y, m, d] = iso.split('-').map(Number); return Date.UTC(y, m - 1, d); };
+  const isoOf = (t) => new Date(t).toISOString().slice(0, 10);
+  const dayText = (iso) => iso + ' (' + WD[new Date(msOf(iso)).getUTCDay()] + ')';
+  const mkEl = (tag, text, cls) => { const n = document.createElement(tag); if (text != null) n.textContent = text; if (cls) n.className = cls; return n; };
+
+  // typed dates: 2026-12-05, 20261205, 261205, 2026.12.05, 2026/12/5, 2026년 12월 5일, 12-05 (year = next such day)
+  function parseDate(raw) {
+    const s = String(raw || '').trim();
+    if (!s) return { empty: true };
+    const nums = s.replace(/[년월.\/\-,]/g, ' ').replace(/일/g, ' ').trim().split(/\s+/).filter(Boolean);
+    if (!nums.every((n) => /^\d+$/.test(n))) return { bad: true };
+    let y = null, m, d;
+    if (nums.length === 1 && nums[0].length === 8) { y = +nums[0].slice(0, 4); m = +nums[0].slice(4, 6); d = +nums[0].slice(6, 8); }
+    else if (nums.length === 1 && nums[0].length === 6) { y = 2000 + +nums[0].slice(0, 2); m = +nums[0].slice(2, 4); d = +nums[0].slice(4, 6); }
+    else if (nums.length === 1 && nums[0].length === 4) { m = +nums[0].slice(0, 2); d = +nums[0].slice(2, 4); }
+    else if (nums.length === 3) { y = +nums[0]; m = +nums[1]; d = +nums[2]; if (nums[0].length <= 2) y += 2000; }
+    else if (nums.length === 2) { m = +nums[0]; d = +nums[1]; }
+    else return { bad: true };
+    if (y == null) {
+      const now = new Date();
+      const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+      y = now.getFullYear();
+      if (Date.UTC(y, m - 1, d) < today) y += 1;
+    }
+    const t = new Date(Date.UTC(y, m - 1, d));
+    if (m < 1 || m > 12 || d < 1 || t.getUTCMonth() !== m - 1 || t.getUTCDate() !== d) return { bad: true };
+    return { iso: t.toISOString().slice(0, 10) };
+  }
+
+
+  function ensureTrip(rows) {
+    const islands = [...new Set(rows.map((r) => r.island))]
+      .sort((a, b) => (ORDER.indexOf(a) + 1 || 99) - (ORDER.indexOf(b) + 1 || 99));
+    if (!trip.legs.length) ['보라보라', '모레아', '타히티', '타하'].filter((i) => islands.includes(i)).forEach((i) => trip.legs.push({ island: i, in: null, nights: null, hotel: null, room: null }));
+    if (!trip.legs.length) trip.legs.push({ island: islands[0], in: null, nights: null, hotel: null, room: null });
+    trip.legs.forEach((L) => {
+      if (!islands.includes(L.island)) L.island = islands[0];
+      const hotels = [...new Set(rows.filter((r) => r.island === L.island).map((r) => r.hotel))];
+      if (!hotels.includes(L.hotel)) L.hotel = hotels[0];
+      const rooms = rows.filter((r) => r.hotel === L.hotel).map((r) => r.room_type);
+      if (!rooms.includes(L.room)) L.room = rooms[0];
+    });
+    if (trip.active.leg >= trip.legs.length) trip.active = { leg: 0, field: 'in' };
+    chainLegs();
+    return islands;
+  }
+  // the check-out day of one island becomes the check-in day of the next one (skipped islands are passed over)
+  function chainLegs() {
+    let seen = false, lastOut = null;
+    trip.legs.forEach((L) => {
+      if (L.skip) return;
+      if (seen && !L.manual) L.in = lastOut;
+      seen = true;
+      lastOut = outOf(L);
+    });
+  }
+  // check-out is not typed: it is the check-in day plus the number of nights
+  const outOf = (L) => (L.in && L.nights != null ? isoOf(msOf(L.in) + L.nights * 864e5) : null);
+  // 0 nights means a day visit: the status of the check-in day itself
+  const daysOf = (row, L, outIso) => nightsOf(row, L.in, L.nights === 0 ? isoOf(msOf(L.in) + 864e5) : outIso);
+  function nightsOf(row, inIso, outIso) {
+    const t0 = msOf(row.start), out = [];
+    for (let t = msOf(inIso); t < msOf(outIso); t += 864e5) {
+      const i = Math.round((t - t0) / 864e5);
+      out.push({ iso: isoOf(t), ch: i >= 0 && i < row.codes.length ? row.codes[i] : '-' });
+    }
+    return out;
+  }
+  function judge(nights) {
+    const c = { a: 0, q: 0, u: 0, o: 0 };
+    nights.forEach((n) => { if (n.ch === 'a') c.a++; else if (n.ch === 'r' || n.ch === 'n') c.q++; else if (n.ch === 'u') c.u++; else c.o++; });
+    const v = c.u ? ['bad', '예약 불가 ' + c.u + '박 포함']
+      : c.o ? ['warn', '확인 불가 ' + c.o + '박 포함']
+      : c.q ? ['req', '요청 필요 ' + c.q + '박']
+      : ['good', '전 일정 즉시 예약 가능'];
+    return { c, cls: v[0], text: v[1] };
+  }
+  const tripRedraw = () => ['trip_legs', 'trip_msg'].forEach((n) => dash.draw(n));
+  function markActive() {
+    document.querySelectorAll('.hx-trip-in').forEach((i) => i.classList.toggle('act', +i.dataset.leg === trip.active.leg && i.dataset.field === 'in'));
+  }
+  // moves the calendar to the next island once this one has check-in and nights
+  const advance = (li) => {
+    const L = trip.legs[li];
+    if (!L || !L.in || L.nights == null) return;
+    const nx = trip.legs.findIndex((x, i) => i > li && !x.skip);
+    if (nx >= 0) trip.active = { leg: nx, field: 'in' };
+  };
+  function commitTyped(li, field, inp) {
+    const L = trip.legs[li];
+    if (!L) return;
+    const name = ISLAND_EN[L.island] || L.island;
+    trip.msg = '';
+    if (field === 'nights') {
+      const raw = inp.value.trim();
+      if (!raw) L.nights = null;
+      else { L.nights = +raw; advance(li); }
+    } else {
+      const r = parseDate(inp.value);
+      if (r.empty) { L.in = null; L.manual = false; }
+      else if (r.bad) trip.msg = name + ': 날짜 형식을 인식하지 못했습니다. 예: 2026-12-05, 20261205, 2026.12.05';
+      else if (r.iso < cutoffIso()) trip.msg = name + ': 지난 날짜(' + cutoffIso() + ' 이전)는 선택할 수 없습니다. ' + cutoffIso() + ' 이후 날짜를 입력하세요.';
+      else { L.in = r.iso; L.manual = true; trip.win = r.iso.slice(0, 7); advance(li); }
+    }
+    tripRedraw();
+  }
+  dash.draw('trip_msg', (el) => { el.textContent = trip.msg || ''; });
+
+  // room list for a resort: priority rooms first (grouped), then the rest alphabetically (the file already holds that order)
+  function roomSelect(rows, hotel, current, onPick, label) {
+    const sel = document.createElement('select');
+    sel.className = 'dash-select';
+    sel.setAttribute('aria-label', label);
+    const list = rows.filter((x) => x.hotel === hotel);
+    const pri = list.filter((x) => x.priority !== '' && x.priority != null);
+    const mk = (x, star) => { const o = new Option((star ? '★ ' : '') + x.room_type, x.room_type); if (star) o.className = 'pri'; return o; };
+    if (pri.length) {
+      const g1 = document.createElement('optgroup'); g1.label = '★ 중요 객실';
+      pri.forEach((x) => g1.appendChild(mk(x, true)));
+      const g2 = document.createElement('optgroup'); g2.label = '전체 객실 (알파벳순)';
+      list.filter((x) => !pri.includes(x)).forEach((x) => g2.appendChild(mk(x, false)));
+      sel.append(g1, g2);
+    } else {
+      sel.append(...list.map((x) => mk(x, false)));
+    }
+    sel.value = current;
+    sel.onchange = () => onPick(sel.value);
+    return sel;
+  }
+  const strip = (nights) => {
+    const s = mkEl('span', null, 'hx-strip');
+    nights.forEach((n) => {
+      const [label, cls] = ST[n.ch] || ST['-'];
+      const q = mkEl('i', null, 'sw hx-sqi ' + cls);
+      q.title = dayText(n.iso) + ' · ' + label;
+      s.appendChild(q);
+    });
+    return s;
+  };
+
+  dash.draw('trip_legs', (el) => {
+    const g = dash.data('rooms');
+    el.replaceChildren();
+    if (g.status !== 'ok') { el.textContent = g.status === 'error' ? '불러오지 못했습니다' : '—'; return; }
+    const rows = viewRows(g);
+    const islands = ensureTrip(rows);
+    trip.legs.forEach((L, li) => {
+      const card = mkEl('div', null, 'hx-leg');
+      card.style.setProperty('--lc', colorOf(L.island));
+
+      const head = mkEl('div', null, 'hx-leg-head');
+      const handle = mkEl('span', '⠿ 끌어서 이동', 'hx-drag');
+      handle.draggable = true;
+      handle.title = '끌어서 다른 섬 칸 위에 놓으면 순서가 바뀝니다';
+      handle.addEventListener('dragstart', (ev) => {
+        dragFrom = li;
+        card.classList.add('dragging');
+        try { ev.dataTransfer.effectAllowed = 'move'; ev.dataTransfer.setData('text/plain', String(li)); ev.dataTransfer.setDragImage(card, 24, 24); } catch (e) { /* some browsers refuse */ }
+      });
+      handle.addEventListener('dragend', () => {
+        dragFrom = null;
+        document.querySelectorAll('.hx-leg').forEach((c) => c.classList.remove('dragging', 'drop-target'));
+      });
+      card.addEventListener('dragover', (ev) => {
+        if (dragFrom == null) return;
+        ev.preventDefault();
+        if (ev.dataTransfer) ev.dataTransfer.dropEffect = 'move';
+        card.classList.add('drop-target');
+      });
+      card.addEventListener('dragleave', (ev) => { if (!card.contains(ev.relatedTarget)) card.classList.remove('drop-target'); });
+      card.addEventListener('drop', (ev) => {
+        ev.preventDefault();
+        const from = dragFrom;
+        dragFrom = null;
+        if (from != null) moveLegTo(from, li);
+      });
+      head.appendChild(handle);
+      head.appendChild(mkEl('span', (li + 1) + '. ' + (ISLAND_EN[L.island] || L.island), 'hx-leg-badge'));
+      const up = mkEl('button', '▲ 위로', 'hx-btn'); up.type = 'button'; up.disabled = li === 0;
+      up.setAttribute('aria-label', (ISLAND_EN[L.island] || L.island) + ' 순서를 위로');
+      up.onclick = () => moveLeg(li, -1);
+      const dn = mkEl('button', '▼ 아래로', 'hx-btn'); dn.type = 'button'; dn.disabled = li === trip.legs.length - 1;
+      dn.setAttribute('aria-label', (ISLAND_EN[L.island] || L.island) + ' 순서를 아래로');
+      dn.onclick = () => moveLeg(li, 1);
+      const sk = mkEl('button', L.skip ? '다시 포함' : '건너뛰기', 'hx-btn warn'); sk.type = 'button';
+      sk.setAttribute('aria-label', (ISLAND_EN[L.island] || L.island) + (L.skip ? ' 일정에 다시 포함' : ' 건너뛰기'));
+      sk.onclick = () => { L.skip = !L.skip; if (L.skip && trip.active.leg === li) { const o = trip.legs.findIndex((x) => !x.skip); trip.active = { leg: Math.max(0, o), field: 'in' }; } tripRedraw(); };
+      head.append(up, dn, sk);
+      card.appendChild(head);
+      if (L.skip) {
+        card.appendChild(mkEl('p', '이번 일정에서는 이 섬을 건너뜁니다.', 'hx-muted'));
+        el.appendChild(card);
+        return;
+      }
+
+      const outIso = outOf(L);
+      const pickBox = mkEl('div', null, 'hx-leg-pick');
+      pickBox.appendChild(mkEl('div', '일정과 객실 선택', 'hx-panel-label'));
+      const drow = mkEl('div', null, 'hx-stay-pick');
+      // check-in: typed or picked on the calendar
+      const labIn = mkEl('label', null, 'hx-fld');
+      labIn.appendChild(document.createTextNode('체크인'));
+      const rowIn = mkEl('span', null, 'hx-fld-row');
+      const inp = document.createElement('input');
+      inp.type = 'text'; inp.inputMode = 'numeric'; inp.autocomplete = 'off'; inp.placeholder = '예: 2026-12-05 또는 20261205';
+      inp.className = 'hx-in hx-trip-in' + (trip.active.leg === li ? ' act' : '');
+      inp.dataset.leg = String(li); inp.dataset.field = 'in';
+      inp.value = L.in || '';
+      inp.setAttribute('aria-label', (ISLAND_EN[L.island] || L.island) + ' 체크인');
+      inp.addEventListener('focus', () => { trip.active = { leg: li, field: 'in' }; markActive(); });
+      inp.addEventListener('change', () => commitTyped(li, 'in', inp));
+      inp.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') commitTyped(li, 'in', inp); });
+      rowIn.appendChild(inp);
+      rowIn.appendChild(mkEl('span', L.in ? '(' + WD[new Date(msOf(L.in)).getUTCDay()] + ')' : '', 'hx-wd-txt'));
+      labIn.appendChild(rowIn);
+      const prevCount = trip.legs.slice(0, li).filter((x) => !x.skip).length;
+      drow.appendChild(labIn);
+      const noteRow = mkEl('div', null, 'hx-note-row');
+      if (prevCount > 0 && !L.manual && L.in) noteRow.appendChild(mkEl('span', '체크인은 앞 섬 체크아웃 날짜로 자동 입력되었습니다', 'hx-auto-note'));
+      if (prevCount > 0 && L.manual) {
+        const rc = mkEl('button', '앞 섬 체크아웃 날짜로 맞추기', 'hx-btn link'); rc.type = 'button';
+        rc.onclick = () => { L.manual = false; tripRedraw(); };
+        noteRow.appendChild(rc);
+      }
+      // stay length in nights (check-out is worked out from it)
+      const labN = mkEl('label', null, 'hx-fld');
+      labN.appendChild(document.createTextNode('투숙 기간'));
+      const rowN = mkEl('span', null, 'hx-fld-row');
+      const ninp = document.createElement('select');
+      ninp.className = 'dash-select hx-nights-sel';
+      ninp.setAttribute('aria-label', (ISLAND_EN[L.island] || L.island) + ' 투숙 기간(박)');
+      ninp.appendChild(new Option('박 수 선택', ''));
+      for (let n = 0; n <= 6; n++) ninp.appendChild(new Option(n + '박', String(n)));
+      ninp.value = L.nights != null ? String(L.nights) : '';
+      ninp.onchange = () => { trip.msg = ''; L.nights = ninp.value !== '' ? +ninp.value : null; advance(li); tripRedraw(); };
+      rowN.appendChild(ninp);
+      labN.appendChild(rowN);
+      drow.appendChild(labN);
+      const labOut = mkEl('div', null, 'hx-fld');
+      labOut.appendChild(document.createTextNode('체크아웃'));
+      const rowOut = mkEl('span', null, 'hx-fld-row');
+      rowOut.appendChild(mkEl('span', outIso || '자동 계산됩니다', 'hx-out-box' + (outIso ? '' : ' empty')));
+      rowOut.appendChild(mkEl('span', outIso ? '(' + WD[new Date(msOf(outIso)).getUTCDay()] + ')' : '', 'hx-wd-txt'));
+      labOut.appendChild(rowOut);
+      drow.appendChild(labOut);
+      pickBox.appendChild(drow);
+      if (noteRow.childNodes.length) pickBox.appendChild(noteRow);
+
+      const prow = mkEl('div', null, 'hx-sel hx-leg-sel');
+      const hl = mkEl('label', null, 'hx-pick p2');
+      hl.appendChild(document.createTextNode('리조트'));
+      const hs = document.createElement('select');
+      hs.className = 'dash-select'; hs.setAttribute('aria-label', '구간 ' + (li + 1) + ' 리조트');
+      [...new Set(rows.filter((r) => r.island === L.island).map((r) => r.hotel))].forEach((h) => hs.appendChild(new Option(h, h)));
+      hs.value = L.hotel;
+      hs.onchange = () => { L.hotel = hs.value; L.room = null; tripRedraw(); };
+      hl.appendChild(hs);
+      const rl = mkEl('label', null, 'hx-pick p3');
+      rl.appendChild(document.createTextNode('객실'));
+      rl.appendChild(roomSelect(rows, L.hotel, L.room, (v) => { L.room = v; tripRedraw(); }, '구간 ' + (li + 1) + ' 객실'));
+      prow.append(hl, rl);
+      pickBox.appendChild(prow);
+      card.appendChild(pickBox);
+
+      const res = mkEl('div', null, 'hx-leg-res');
+      res.appendChild(mkEl('div', '날짜별 예약 현황', 'hx-panel-label'));
+      const row = rows.find((r) => r.hotel === L.hotel && r.room_type === L.room);
+      if (!L.in || !outIso) {
+        res.appendChild(mkEl('p', L.in ? '투숙 기간(박)을 입력하세요.' : '체크인 날짜를 입력하거나 달력에서 선택하세요.', 'hx-muted'));
+      } else if (row) {
+        const nights = daysOf(row, L, outIso);
+        const j = judge(nights);
+        const dayVisit = L.nights === 0;
+        if (dayVisit) j.text = { good: '당일 즉시 예약 가능', req: '당일 요청 필요', bad: '당일 예약 불가', warn: '당일 확인 불가' }[j.cls];
+        const sum = mkEl('p', null, 'hx-stay-head');
+        sum.appendChild(mkEl('b', ISLAND_EN[L.island] + ' · ' + L.hotel + ' · ' + L.room));
+        sum.appendChild(document.createTextNode(dayVisit
+          ? ' — 당일 이용(0박) · ' + dayText(L.in)
+          : ' — ' + nights.length + '박 · 즉시 예약 가능 ' + j.c.a + '박 · 예약 요청 가능 ' + j.c.q + '박 · 예약 불가 ' + j.c.u + '박' + (j.c.o ? ' · 확인 불가 ' + j.c.o + '박' : '')));
+        res.appendChild(sum);
+        res.appendChild(mkEl('div', j.text, 'hx-verdict ' + j.cls));
+        const list = mkEl('div', null, 'hx-nights');
+        nights.forEach((n) => {
+          const [label, cls] = ST[n.ch] || ST['-'];
+          const r = mkEl('div', null, 'hx-night n-' + cls);
+          r.appendChild(mkEl('span', dayText(n.iso), 'dt'));
+          const chip = mkEl('span', null, 'chip');
+          chip.appendChild(mkEl('i', null, 'sw ' + cls));
+          chip.appendChild(document.createTextNode(label));
+          r.appendChild(chip);
+          list.appendChild(r);
+        });
+        res.appendChild(list);
+        res.appendChild(mkEl('p', dayVisit ? '0박은 체크인 당일의 예약 상태를 보여줍니다.' : '체크아웃 날(' + outIso + ')은 숙박일에 포함하지 않습니다.', 'hx-muted'));
+        const others = rows.filter((r) => r.hotel === L.hotel && r !== row);
+        if (others.length) {
+          res.appendChild(mkEl('h4', '같은 리조트의 다른 객실 (같은 날짜 기준, 누르면 선택됩니다)', 'hx-oth-h'));
+          const wrap = mkEl('div', null, 'hx-wrap');
+          const tbl = document.createElement('table');
+          const tb = document.createElement('tbody');
+          others.forEach((o) => {
+            const on = daysOf(o, L, outIso);
+            const oj = judge(on);
+            if (dayVisit) oj.text = { good: '당일 즉시 예약 가능', req: '당일 요청 필요', bad: '당일 예약 불가', warn: '당일 확인 불가' }[oj.cls];
+            const tr = mkEl('tr', null, 'rl' + (o.priority ? ' pri' : ''));
+            tr.tabIndex = 0; tr.setAttribute('role', 'button');
+            tr.appendChild(mkEl('td', (o.priority ? '★ ' : '') + o.room_type));
+            const td = mkEl('td', null, 'n'); td.appendChild(strip(on)); tr.appendChild(td);
+            const tv = mkEl('td', null, 'n'); tv.appendChild(mkEl('span', oj.text, 'hx-vchip ' + oj.cls)); tr.appendChild(tv);
+            const pick = () => { L.room = o.room_type; tripRedraw(); };
+            tr.addEventListener('click', pick);
+            tr.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') pick(); });
+            tb.appendChild(tr);
+          });
+          tbl.appendChild(tb); wrap.appendChild(tbl); res.appendChild(wrap);
+        }
+      }
+      card.appendChild(res);
+      el.appendChild(card);
+    });
+  });
+
+  // views: the calendar per hotel/room, and the trip page
+  const views = {
+    detail: [document.getElementById('view-pick'), document.getElementById('view-legend'), document.getElementById('view-detail')],
+    stay: [document.getElementById('view-stay')]
+  };
+  function setView(name, fromHash) {
+    Object.keys(views).forEach((k) => views[k].forEach((v) => { if (v) v.hidden = k !== name; }));
+    document.querySelectorAll('.hx-tab').forEach((b) => {
+      const on = b.dataset.view === name;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    if (name === 'stay') tripRedraw();
+    else redrawFrom(['sel_island', 'sel_hotel', 'sel_room', 'summary', 'calendar']);
+    if (!fromHash) {
+      if (name === 'stay') dash.setLink('stay-check');
+      else if (state.hotel) dash.setLink(slug(state.hotel));
+    }
+  }
+  document.querySelectorAll('.hx-tab').forEach((b) => b.addEventListener('click', () => setView(b.dataset.view)));
+  if (hashParts().view === 'stay') setView('stay', true);
+</script>
+</body></html>
